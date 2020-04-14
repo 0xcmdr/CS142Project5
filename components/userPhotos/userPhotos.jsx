@@ -13,10 +13,12 @@ class UserPhotos extends React.Component {
   constructor(props) {
     super(props);
     //state tanımla
-    this.state={photos:window.cs142models.photoOfUserModel(this.props.match.params.userId)}
+    this.state={
+      photos : window.cs142models.photoOfUserModel(this.props.match.params.userId),
+      user : window.cs142models.userModel(this.props.match.params.userId)
+    }
     //fotoğrafları çekecek fonksiyon
     this.fetchPhotos=this.fetchPhotos.bind(this);
-
   }
 
   /* Komponent DOMA bağlandığında */
@@ -26,7 +28,7 @@ class UserPhotos extends React.Component {
       this.fetchPhotos()
     );
     /* this.currUser.photos.user.first_name +" "+this.state.photos.user.last_name */
-      this.props.titleOnChange("Photos of " );
+      this.props.titleOnChange("Photos of " + this.state.user.first_name +" "+this.state.user.last_name );
     
   }
 
@@ -34,11 +36,13 @@ class UserPhotos extends React.Component {
   fetchPhotos(){
      //URL den userID yi al
      const {userId} =this.props.match.params;
-     //veriyi çek ve state aktar
+     //fotoğrafı ve userı çek
      const myPhotos=window.cs142models.photoOfUserModel(userId);
+     const currUser =window.cs142models.userModel(userId);
      //statei güncelle
      this.setState(
-       {photos:myPhotos}
+       {photos:myPhotos,
+        user:currUser}
        );
       
        

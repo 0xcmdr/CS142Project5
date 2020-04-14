@@ -41,9 +41,9 @@ class UserDetail extends React.Component {
      //veriyi çek ve state aktar
      const myUser=window.cs142models.userModel(userId);
      //statei güncelle
-     this.setState(
-       {user:myUser}
-       );
+     this.setState({
+       user:myUser
+      });
        
   }
     
@@ -62,6 +62,7 @@ class UserDetail extends React.Component {
       
         <Grid container className="gridItem" spacing={6} >
           <Grid item xs={12} className="gridItem" >
+            <div className="userName">{this.state.user.first_name} {this.state.user.last_name}</div>
             <img src="./images/default_user_image.jpg" alt="Profile Image" className="useravatar" />
             <Divider/>
             <Link to={"/photos/"+this.state.user._id} >

@@ -1,4 +1,12 @@
 .topbar-appBar {
   height: 60;
   justify-content: 'center';
+  
+}
+
+.menuButton {
+  margin-right: auto;
+}
+.title {
+  flex-grow: 1;
 }

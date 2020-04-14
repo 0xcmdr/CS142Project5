@@ -11,3 +11,11 @@ border-radius: 50%;
     font-size: 30px;
     
 }
+.userName{
+    text-transform: uppercase;
+    text-emphasis: weight;
+
+    font-weight: 500;
+    font-size: 2.5rem;
+    
+}

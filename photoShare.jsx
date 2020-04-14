@@ -62,14 +62,14 @@ class PhotoShare extends React.Component {
             <Route exact path="/"
                 render={() =>
                   <Typography variant="body1">
-                    Bu kısım 9/12 oranla oluşturulmuştur. ANA İÇERİK bu kısımda görüntülenecektir.
+                    Please select an user from left side.
                   </Typography>}
               />
               <Route path="/users/:userId"
                 render={ props => <UserDetail {...props} titleOnChange={this.changeTitle} setCurrentUser={this.currentUser} /> }
               />
               <Route path="/photos/:userId"
-                render ={ props => <UserPhotos {...props} /> }
+                render ={ props => <UserPhotos {...props} titleOnChange={this.changeTitle} /> }
               />
               <Route path="/users" component={UserList}  />
 
