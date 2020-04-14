@@ -1,0 +1,13 @@
+.gridItem{
+    text-align: center;
+    margin:40px 50px 50px 30px;
+}
+.useravatar{
+height: 200px;
+width: 200px;
+border-radius: 50%;
+}
+.chip{
+    font-size: 30px;
+    
+}
