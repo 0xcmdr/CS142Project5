@@ -14,14 +14,6 @@ class TopBar extends React.Component {
     super(props);
   }
 
-  componentDidMount(){
-    console.log("Topbar Mounted");
-  }
-
- UNSAFE_componentWillUpdate()
- {
-   console.log("TOPBAR UPDATED");
- }
 
   render() {
     return (

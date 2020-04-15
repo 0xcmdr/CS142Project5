@@ -4,55 +4,84 @@ import {
 } from '@material-ui/core';
 import './userPhotos.css';
 import PhotoCard from '../extras/photoCard'
+//Web serverdan GET ile datayı çekmek için
+import fetchModel from "../../lib/fetchModelData"
 
 
 /**
  * UserPhotos Komponentini Tanımladık
  */
 class UserPhotos extends React.Component {
+  _isMounted=false;
+
   constructor(props) {
     super(props);
     //state tanımla
     this.state={
-      photos : window.cs142models.photoOfUserModel(this.props.match.params.userId),
-      user : window.cs142models.userModel(this.props.match.params.userId)
+      photos :[],
+      user : {}
     }
     //fotoğrafları çekecek fonksiyon
     this.fetchPhotos=this.fetchPhotos.bind(this);
+    this.fetchUser=this.fetchUser.bind(this);
+    
   }
 
   /* Komponent DOMA bağlandığında */
   componentDidMount(){
+    //Komponent bağlandı
+    this._isMounted=true;
+    //ilk state değerlerini ata
+    this.fetchPhotos();
+    this.fetchUser();
     //geçmişteki değişikliği dinle, path değişirse kullanıcıyı güncelle
-    this.unlisten=this.props.history.listen(() =>
-      this.fetchPhotos()
+    this.unlisten=this.props.history.listen(() =>{
+      this.fetchPhotos();
+      this.fetchUser();
+    }
     );
-    /* this.currUser.photos.user.first_name +" "+this.state.photos.user.last_name */
-      this.props.titleOnChange("Photos of " + this.state.user.first_name +" "+this.state.user.last_name );
+      
     
   }
 
-
+/* Fotoğrafları çek */
   fetchPhotos(){
-     //URL den userID yi al
-     const {userId} =this.props.match.params;
-     //fotoğrafı ve userı çek
-     const myPhotos=window.cs142models.photoOfUserModel(userId);
-     const currUser =window.cs142models.userModel(userId);
-     //statei güncelle
-     this.setState(
-       {photos:myPhotos,
-        user:currUser}
-       );
+     //fotoğrafı çek
+     fetchModel('/photosOfUser/'+this.props.match.params.userId)
+      .then((response) =>{
+        if(this._isMounted){
+            //statei güncelle
+            this.setState({photos : response.data})
+        }})
+      .catch((error)=>console.log(error));
       
-       
+  }
+
+ /*  Kullanıcıları Çek */
+  fetchUser(){
+    //kullanıcıyı verilerini ID'den çek
+    fetchModel('/user/'+this.props.match.params.userId)
+    .then(response => {
+      if(this._isMounted){
+        //Topbara title gönder
+          this.props.titleOnChange("User Details of " + response.data.first_name +" "+response.data.last_name );
+          //state güncelle
+        this.setState({
+          user:response.data
+        });
+      }
+
+    });
   }
 
   //Komponent DOM'dan çıkarıldığında
   componentWillUnmount(){
+    this._isMounted=false;
+
     //fotoğrafları boşalt.
     this.setState(
-      {photos:null}
+      {photos:null,
+      user:null}
       );
       //history listenerı sil
       this.unlisten();

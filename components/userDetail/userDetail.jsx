@@ -9,10 +9,13 @@ import {
 import {Link} from 'react-router-dom'
 import './userDetail.css';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
+import fetchModel from '../../lib/fetchModelData';
 /**
  * UserDetail Componentini Tanımladık
  */
 class UserDetail extends React.Component {
+  _isMounted=false;
+
   constructor(props) {
     super(props);
     //useri local state içerisinde tut
@@ -20,35 +23,40 @@ class UserDetail extends React.Component {
     this.fetchUser=this.fetchUser.bind(this);
   }
 
-
   /* Komponent DOMA bağlandığında */
   componentDidMount(){
-    //ilk açılışta çalıştır
-    this.fetchUser()
+    this._isMounted=true;
+    //ilk kullanıcıyı çek
+    this.fetchUser();
     //geçmişteki değişikliği dinle, path değişirse kullanıcıyı güncelle
-    this.unlisten=this.props.history.listen(() =>
-      this.fetchUser()
+    this.unlisten=this.props.history.listen(() =>{    
+      this.fetchUser();
+      
+    }
     );
-    //TOPBAR komponentine yeni title gönder
-    this.props.titleOnChange("User Details");
+
     
   }
 
-  //kullanıcı verilerini çek
   fetchUser(){
-     //user id den user verilerini çek
-     const {userId} =this.props.match.params;
-     //veriyi çek ve state aktar
-     const myUser=window.cs142models.userModel(userId);
-     //statei güncelle
-     this.setState({
-       user:myUser
-      });
-       
+    //kullanıcıyı verilerini ID'den çek
+    fetchModel('/user/'+this.props.match.params.userId)
+    .then(response => {
+      if(this._isMounted){
+        //TOPBAR komponentine yeni title gönder
+        this.props.titleOnChange("User Details of "+ response.data.first_name +" "+response.data.last_name);
+          //state güncelle
+        this.setState({
+          user:response.data
+          });
+      }
+    });
   }
     
   //komponent DOM'dan çıkarılınca belleği serbest bırak
   componentWillUnmount(){
+    this._isMounted=false;
+    //bellekten kullanıcı boşalt
     this.setState(
       {user:null}
       );
@@ -85,10 +93,8 @@ class UserDetail extends React.Component {
                 label="User ID"
                 style={{ margin: 8 }}
                 placeholder={this.state.user._id}
-                defaultValue={this.state.user._id}
                 helperText="ID of User"
                 disabled
-                
                 color="secondary"
                 margin="normal"
                 InputLabelProps={{
@@ -103,9 +109,7 @@ class UserDetail extends React.Component {
                 label="Occupation"
                 style={{ margin: 8 }}
                 placeholder={this.state.user.occupation}
-                defaultValue={this.state.user.occupation}
                 helperText="Occupation of User"
-                
                 color="secondary"
                 margin="normal"
                 InputLabelProps={{
@@ -120,7 +124,6 @@ class UserDetail extends React.Component {
                 label="First Name"
                 style={{ margin: 8 }}
                 placeholder={this.state.user.first_name}
-                defaultValue={this.state.user.first_name}
                 helperText="First Name of User"
                 fullWidth
                 color="secondary"
@@ -138,7 +141,6 @@ class UserDetail extends React.Component {
                 label="Last Name"
                 style={{ margin: 8 }}
                 placeholder={this.state.user.last_name}
-                defaultValue={this.state.user.last_name}
                 helperText="Last Name of User"
                 fullWidth
                 color="secondary"
@@ -155,7 +157,6 @@ class UserDetail extends React.Component {
                 label="Location"
                 style={{ margin: 8 }}
                 placeholder={this.state.user.location}
-                defaultValue={this.state.user.location}
                 helperText="Location of User"
                 
                 color="secondary"
@@ -171,7 +172,6 @@ class UserDetail extends React.Component {
                 label="Description"
                 style={{ margin: 8 }}
                 placeholder={this.state.user.description}
-                defaultValue={this.state.user.description}
                 helperText="Description of User"
                 fullWidth
                 color="secondary"
