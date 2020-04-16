@@ -22,8 +22,7 @@ class PhotoShare extends React.Component {
     super(props);
     this.state=
     {
-      title:"Welcome",
-      currUser:null
+      title:"Home Page",
     }
     this.changeTitle=this.changeTitle.bind(this);
     this.currentUser=this.currentUser.bind(this);
@@ -33,12 +32,6 @@ class PhotoShare extends React.Component {
   changeTitle(newTitle)
   {
     this.setState({title:newTitle})
-  }
-
-  //Tıklanan kullanıcı verisini komponentler arasında yollamak için belirle
-  currentUser(selectedUser)
-  {
-    this.setState({currUser:selectedUser});
   }
 
   render() {
@@ -66,7 +59,7 @@ class PhotoShare extends React.Component {
                   </Typography>}
               />
               <Route path="/users/:userId"
-                render={ props => <UserDetail {...props} titleOnChange={this.changeTitle} setCurrentUser={this.currentUser} /> }
+                render={ props => <UserDetail {...props} titleOnChange={this.changeTitle} /> }
               />
               <Route path="/photos/:userId"
                 render ={ props => <UserPhotos {...props} titleOnChange={this.changeTitle} /> }
