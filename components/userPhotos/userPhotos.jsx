@@ -93,7 +93,7 @@ class UserPhotos extends React.Component {
       <Grid container spacing={4}>
         <Divider/>
         {
-          
+            /* Kullanıcının her bir fotoğrafını oluştur */
             this.state.photos.map(
              (element,index) => <PhotoCard key={index} {...element} index={index}/>
              )

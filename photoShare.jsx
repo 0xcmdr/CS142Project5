@@ -25,7 +25,6 @@ class PhotoShare extends React.Component {
       title:"Home Page",
     }
     this.changeTitle=this.changeTitle.bind(this);
-    this.currentUser=this.currentUser.bind(this);
   }
 
   //Her bir komponent render edildiğinde TOPBAR title'ını güncelle
