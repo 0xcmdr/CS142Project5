@@ -28,7 +28,7 @@ class UserDetail extends React.Component {
   componentDidMount(){
     this._isMounted=true;
     //ilk kullanıcıyı çek
-    this.fetchUser();
+    this.fetchUser(this.props.match.params.userId);
     //geçmişteki değişikliği dinle, path değişirse kullanıcıyı güncelle
     this.unlisten=this.props.history.listen((e) =>{
       this.fetchUser(e.pathname.split('/')[2]);
