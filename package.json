@@ -8,7 +8,7 @@
     "build": "node_modules/.bin/webpack -d",
     "build:w": "node_modules/.bin/webpack -d --watch",
     "lint": "node_modules/.bin/eslint *.jsx components/*/*.jsx lib/*.js",
-    "serve":"npm run build:w & node webServer.js"
+    "serve": "npm run build:w & node webServer.js"
   },
   "author": "Cuma Duran - contact@cmduran.com",
   "license": "ISC",

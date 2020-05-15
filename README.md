@@ -9,11 +9,13 @@ git clone https://github.com/0xcmdr/CS142Project5.git
 ```
 
 ```bash
-npm install #install node_modules
+ #install node_modules
+npm install
 ```
 
 ```bash
-npm run serve #start web server for http://localhost:3000 and build-watch files
+#start web server for http://localhost:3001 and build-watch files
+npm run serve 
 ```
 
 ## Project Summary

@@ -21,26 +21,27 @@ class UserDetail extends React.Component {
     //useri local state içerisinde tut
     this.state={user:{}}
     this.fetchUser=this.fetchUser.bind(this);
+    this.unlisten=null
   }
 
-  /* Komponent DOMA bağlandığında */
+    /* Komponent DOMA bağlandığında */
   componentDidMount(){
     this._isMounted=true;
     //ilk kullanıcıyı çek
     this.fetchUser();
     //geçmişteki değişikliği dinle, path değişirse kullanıcıyı güncelle
-    this.unlisten=this.props.history.listen(() =>{    
-      this.fetchUser();
-      
+    this.unlisten=this.props.history.listen((e) =>{
+      this.fetchUser(e.pathname.split('/')[2]);
+
     }
     );
 
-    
+
   }
 
-  fetchUser(){
+  fetchUser(id){
     //kullanıcıyı verilerini ID'den çek
-    fetchModel('/user/'+this.props.match.params.userId)
+    fetchModel('/user/'+id)
     .then(response => {
       if(this._isMounted){
         //TOPBAR komponentine yeni title gönder
@@ -52,7 +53,7 @@ class UserDetail extends React.Component {
       }
     });
   }
-    
+
   //komponent DOM'dan çıkarılınca belleği serbest bırak
   componentWillUnmount(){
     this._isMounted=false;
@@ -65,9 +66,9 @@ class UserDetail extends React.Component {
   }
 
   render() {
-   
+
     return (
-      
+
         <Grid container className="gridItem" spacing={6} >
           <Grid item xs={12} className="gridItem" >
             <div className="userName">{this.state.user.first_name} {this.state.user.last_name}</div>
@@ -80,7 +81,7 @@ class UserDetail extends React.Component {
                   size="large"
                   startIcon={<PhotoLibraryIcon />}
                 >
-                  
+
                   SHOW USERS PHOTOS
           </Button>
             </Link>
@@ -89,7 +90,7 @@ class UserDetail extends React.Component {
 
           <Grid item xs={6} className="gridItem">
           <TextField
-                
+
                 label="User ID"
                 style={{ margin: 8 }}
                 placeholder={this.state.user._id}
@@ -102,10 +103,10 @@ class UserDetail extends React.Component {
                 }}
               />
           </Grid>
-   
+
           <Grid item xs={6} className="gridItem">
           <TextField
-                
+
                 label="Occupation"
                 style={{ margin: 8 }}
                 placeholder={this.state.user.occupation}
@@ -120,7 +121,7 @@ class UserDetail extends React.Component {
 
           <Grid item xs={6} className="gridItem">
                 <TextField
-                
+
                 label="First Name"
                 style={{ margin: 8 }}
                 placeholder={this.state.user.first_name}
@@ -132,12 +133,12 @@ class UserDetail extends React.Component {
                   shrink: true,
                 }}
               />
-            
+
           </Grid>
 
           <Grid item xs={6} className="gridItem">
           <TextField
-                
+
                 label="Last Name"
                 style={{ margin: 8 }}
                 placeholder={this.state.user.last_name}
@@ -153,12 +154,12 @@ class UserDetail extends React.Component {
 
           <Grid item xs={12} className="gridItem">
           <TextField
-                
+
                 label="Location"
                 style={{ margin: 8 }}
                 placeholder={this.state.user.location}
                 helperText="Location of User"
-                
+
                 color="secondary"
                 margin="normal"
                 InputLabelProps={{
@@ -168,7 +169,7 @@ class UserDetail extends React.Component {
           </Grid>
           <Grid item xs={12} className="gridItem">
           <TextField
-                
+
                 label="Description"
                 style={{ margin: 8 }}
                 placeholder={this.state.user.description}
@@ -180,10 +181,10 @@ class UserDetail extends React.Component {
                   shrink: true,
                 }}
               />
-        
+
           </Grid>
         </Grid>
-     
+
     );
   }
 
